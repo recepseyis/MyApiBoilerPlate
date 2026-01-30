@@ -28,6 +28,13 @@ namespace MyApiBoilerPlate.Application.Users.Commands.CreateUser
           .Matches(ValidationConstants.User.PhoneNumberPattern)
           .WithMessage("A valid phone number is required.");
 
+      RuleFor(x => x.Password)
+          .NotEmpty().WithMessage("Password is required.")
+          .MinimumLength(ValidationConstants.User.PasswordMinLength)
+          .WithMessage($"Password must be at least {ValidationConstants.User.PasswordMinLength} characters long.")
+          .MaximumLength(ValidationConstants.User.PasswordMaxLength)
+          .WithMessage($"Password must not exceed {ValidationConstants.User.PasswordMaxLength} characters.");
+
       RuleFor(x => x.DateOfBirth)
           .LessThan(DateTime.Now).WithMessage("Date of birth must be in the past.");
     }

@@ -9,6 +9,7 @@ namespace MyApiBoilerPlate.Application.Users.Commands.CreateUser
       string LastName,
       string Email,
       string PhoneNumber,
+      string Password,
       DateTime DateOfBirth,
       bool IsActive
   ) : IRequest<ErrorOr<UserCreatedResult>>;

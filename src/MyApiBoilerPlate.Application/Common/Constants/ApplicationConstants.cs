@@ -8,6 +8,8 @@ public static class ValidationConstants
     public const int LastNameMaxLength = 50;
     public const int EmailMaxLength = 100;
     public const string PhoneNumberPattern = @"^\+?[1-9]\d{1,14}$";
+    public const int PasswordMinLength = 8;
+    public const int PasswordMaxLength = 100;
   }
 }
 

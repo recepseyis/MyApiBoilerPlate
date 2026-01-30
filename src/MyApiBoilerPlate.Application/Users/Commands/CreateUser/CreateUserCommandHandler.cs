@@ -1,13 +1,15 @@
 ﻿using ErrorOr;
 using Mediator;
 using MyApiBoilerPlate.Application.Common.Interfaces.Repositories;
+using MyApiBoilerPlate.Application.Common.Interfaces.Authentication;
 using MyApiBoilerPlate.Application.Users.Common;
 using MyApiBoilerPlate.Domain.Entities;
 
 namespace MyApiBoilerPlate.Application.Users.Commands.CreateUser
 {
     public sealed class CreateUserCommandHandler(
-        IUserRepository userRepository
+        IUserRepository userRepository,
+        IPasswordHasher passwordHasher
     ) : IRequestHandler<CreateUserCommand, ErrorOr<UserCreatedResult>>
     {
         public async ValueTask<ErrorOr<UserCreatedResult>> Handle(CreateUserCommand request, CancellationToken cancellationToken)
@@ -19,13 +21,15 @@ namespace MyApiBoilerPlate.Application.Users.Commands.CreateUser
                 return Application.Common.Errors.Errors.User.AlreadyExistsByEmail(request.Email);
             }
 
+            string passwordHash = passwordHasher.HashPassword(request.Password);
+
             // Create user using domain constructor
             User user = new User(
               request.FirstName,
               request.LastName,
               request.Email,
               request.PhoneNumber,
-              "INITIAL_PASSWORD_NOT_SET",
+              passwordHash,
               request.DateOfBirth
             );
 
